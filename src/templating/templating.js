@@ -1,7 +1,7 @@
 (function () {
     var _templateEngine;
     ko.setTemplateEngine = function (templateEngine) {
-        if ((templateEngine != undefined) && !(templateEngine instanceof ko.templateEngine))
+        if ((templateEngine != undefined) && !(ko.utils.isInstanceOf(templateEngine, ko.templateEngine)))
             throw new Error("templateEngine must inherit from ko.templateEngine");
         _templateEngine = templateEngine;
     }
@@ -128,7 +128,7 @@
             return ko.dependentObservable( // So the DOM is automatically updated when any dependency changes
                 function () {
                     // Ensure we've got a proper binding context to work with
-                    var bindingContext = (dataOrBindingContext && (dataOrBindingContext instanceof ko.bindingContext))
+                    var bindingContext = (dataOrBindingContext && (ko.utils.isInstanceOf(dataOrBindingContext, ko.bindingContext)))
                         ? dataOrBindingContext
                         : new ko.bindingContext(ko.utils.unwrapObservable(dataOrBindingContext));
 

@@ -402,7 +402,7 @@
     }
 
     function getBindingContext(viewModelOrBindingContext) {
-        return viewModelOrBindingContext && (viewModelOrBindingContext instanceof ko.bindingContext)
+        return viewModelOrBindingContext && (ko.utils.isInstanceOf(viewModelOrBindingContext, ko.bindingContext))
             ? viewModelOrBindingContext
             : new ko.bindingContext(viewModelOrBindingContext);
     }

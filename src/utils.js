@@ -23,7 +23,11 @@ ko.utils = (function () {
         return obj;
     }
 
-    var canSetPrototype = ({ __proto__: [] } instanceof Array);
+    function isInstanceOf(obj, type) {
+        return !(!obj || !obj.hasOwnProperty || !(obj instanceof type));    // Shouldn't call instanceOf for non-objects
+    }
+
+    var canSetPrototype = (isInstanceOf({ __proto__: [] }, Array));
 
     // Represent the known event types in a compact way, then at runtime transform it into a hash with event name as key (for fast lookup)
     var knownEvents = {}, knownEventTypesByEventName = {};
@@ -124,7 +128,7 @@ ko.utils = (function () {
         },
 
         arrayPushAll: function (array, valuesToPush) {
-            if (valuesToPush instanceof Array)
+            if (ko.utils.isInstanceOf(valuesToPush, Array))
                 array.push.apply(array, valuesToPush);
             else
                 for (var i = 0, j = valuesToPush.length; i < j; i++)
@@ -150,6 +154,8 @@ ko.utils = (function () {
         setPrototypeOf: setPrototypeOf,
 
         setPrototypeOfOrExtend: canSetPrototype ? setPrototypeOf : extend,
+
+        isInstanceOf: isInstanceOf,
 
         objectForEach: objectForEach,
 

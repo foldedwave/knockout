@@ -24,11 +24,11 @@
         visitedObjects = visitedObjects || new objectLookup();
 
         rootObject = mapInputCallback(rootObject);
-        var canHaveProperties = (typeof rootObject == "object") && (rootObject !== null) && (rootObject !== undefined) && (!(rootObject instanceof Date)) && (!(rootObject instanceof String)) && (!(rootObject instanceof Number)) && (!(rootObject instanceof Boolean));
+        var canHaveProperties = (typeof rootObject == "object") && (rootObject !== null) && (rootObject !== undefined) && (!ko.utils.isInstanceOf(rootObject, Date)) && (!ko.utils.isInstanceOf(rootObject, String)) && (!ko.utils.isInstanceOf(rootObject, Number)) && (!ko.utils.isInstanceOf(rootObject, Boolean));
         if (!canHaveProperties)
             return rootObject;
 
-        var outputProperties = rootObject instanceof Array ? [] : {};
+        var outputProperties = ko.utils.isInstanceOf(rootObject, Array) ? [] : {};
         visitedObjects.save(rootObject, outputProperties);
 
         visitPropertiesOrArrayEntries(rootObject, function(indexer) {
@@ -55,7 +55,7 @@
     }
 
     function visitPropertiesOrArrayEntries(rootObject, visitorCallback) {
-        if (rootObject instanceof Array) {
+        if (ko.utils.isInstanceOf(rootObject, Array)) {
             for (var i = 0; i < rootObject.length; i++)
                 visitorCallback(i);
 
